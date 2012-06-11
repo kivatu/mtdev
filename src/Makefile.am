@@ -25,3 +25,20 @@ libmtdevinclude_HEADERS = \
 	$(top_srcdir)/include/mtdev-mapping.h \
 	$(top_srcdir)/include/mtdev-plumbing.h \
 	$(top_srcdir)/include/mtdev.h
+
+
+# Only Android stuff below this line
+
+Android.mk: Makefile
+	androgenizer \
+	-:PROJECT mtdev \
+	-:REL_TOP $(top_srcdir) -:ABS_TOP $(abs_top_srcdir) \
+	\
+	-:STATIC libmtdev \
+	-:TAGS eng debug \
+	-:SOURCES $(libmtdev_la_SOURCES) \
+	-:CFLAGS $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(AM_CFLAGS) \
+	\
+	-:PASSTHROUGH 'mtdev-clean: clean-libmtdev' \
+	> $@
+
